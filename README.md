@@ -1,36 +1,102 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Merali Studio - Portfólio de Visualização Arquitetônica
 
-## Getting Started
+![Merali Studio Banner](public/render.jpg)
 
-First, run the development server:
+> **Merali Studio** nasceu da obsessão pelo detalhe. Atuamos como um laboratório de luz e atmosfera, onde cada pixel é esculpido para criar a ilusão perfeita da realidade. Atendemos nomes que moldam o skyline global.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+Este é o repositório front-end do portfólio do **Merali Studio**. É uma vitrine altamente interativa e hiper-realista, projetada para elevar projetos arquitetônicos ao patamar de obra de arte. Construído com tecnologias web de ponta, apresenta animações fluidas, rolagem suave (smooth scroll) e uma experiência de usuário imersiva.
+
+---
+
+## 🚀 Tecnologias Utilizadas
+
+Este projeto foi construído utilizando padrões modernos de desenvolvimento web para garantir alta performance e um aspecto visual premium:
+
+- **Framework:** [Next.js 14+](https://nextjs.org/) (App Router)
+- **Estilização:** [Tailwind CSS v4](https://tailwindcss.com/)
+- **Animações:** 
+  - [Framer Motion](https://www.framer.com/motion/) para animações declarativas no React
+  - [GSAP (GreenSock)](https://gsap.com/) para sequenciamento complexo e rolagem interativa
+- **Buscador de Dados:** [TanStack React Query](https://tanstack.com/query/latest) & Axios
+- **Componentes de UI:** [Radix UI](https://www.radix-ui.com/) & [shadcn/ui](https://ui.shadcn.com/)
+- **Rolagem Suave:** [Lenis](https://lenis.studiofreight.com/)
+
+---
+
+## ✨ Funcionalidades
+
+- **Seção Inicial Imersiva:** Hero em tela cheia com vídeos/imagens de fundo em camadas e animações de revelação em cascata.
+- **Galeria de Portfólio Dinâmica:** Uma galeria de estilo alvenaria (masonry) que busca os projetos "favoritos" através de uma API backend.
+- **Visualizador de Imagens (Lightbox) Iterativo:** Visualizador de imagens personalizado com navegação pelo teclado (`Setas direcionais`, `Esc`), desfoque de fundo (backdrop blurs) e transições contínuas.
+- **Rolagem Suave (Smooth Scroll):** Integração do plugin GSAP ScrollTo combinada com técnicas modernas de rolagem suave.
+- **Design Responsivo:** Layouts cuidadosamente elaborados para Mobile, Tablet e Desktop, garantindo que o padrão premium permaneça intacto em todos os dispositivos.
+- **Performance Otimizada:** Uso do `next/image` do Next.js para carregamento sob demanda (lazy loading) e entrega otimizada de recursos visuais.
+
+---
+
+## ⚙️ Como Executar o Projeto
+
+Siga as instruções abaixo para rodar o projeto localmente.
+
+### Pré-requisitos
+
+- Node.js 18.x ou superior
+- npm, yarn ou pnpm
+
+### Instalação
+
+1. Clone o repositório:
+   ```bash
+   git clone https://github.com/neveshardd/showcase-merali.git
+   ```
+
+2. Acesse a pasta do projeto:
+   ```bash
+   cd showcase-merali
+   ```
+
+3. Instale todas as dependências:
+   ```bash
+   npm install
+   ```
+
+4. Crie um arquivo `.env.local` na raiz do projeto para especificar a URL da sua API backend (se necessário):
+   ```env
+   NEXT_PUBLIC_API_URL=http://localhost:3000
+   ```
+
+5. Inicie o servidor de desenvolvimento (atente-se que o pacote principal usa a porta 3001):
+   ```bash
+   npm run dev
+   ```
+
+6. Abra [http://localhost:3001](http://localhost:3001) em seu navegador para ver o resultado.
+
+---
+
+## 📂 Estrutura do Projeto
+
+```text
+showcase-merali/
+├── public/               # Arquivos estáticos (imagens, fontes, renders)
+├── src/
+│   ├── app/              # Páginas e layouts do App Router do Next.js
+│   │   ├── globals.css   # Estilos globais do Tailwind
+│   │   ├── layout.tsx    # Configuração principal do Layout
+│   │   └── page.tsx      # Landing Page Principal (Hero, Galeria, Contato)
+│   ├── components/       # Componentes de UI reutilizáveis (shadcn/ui, etc.)
+│   └── lib/              # Funções utilitárias, integrações de API, animações
+├── package.json          # Metadados e dependências do projeto
+├── tailwind.config.ts    # Configurações do Tailwind CSS
+└── next.config.ts        # Configurações do Next.js
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 📞 Contato
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+**Merali Studio**
+- **E-mail:** contato@merali.com.br
+- **Localização:** Brasília, DF, Brasil
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+© 2026 Merali Studio. Todos os direitos reservados.
