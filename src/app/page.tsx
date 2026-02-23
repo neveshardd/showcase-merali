@@ -5,10 +5,16 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { X, ChevronLeft, ChevronRight } from "lucide-react";
+import { X, ChevronLeft, ChevronRight, ChevronUp } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { z } from "zod";
+import gsap from "gsap";
+import { ScrollToPlugin } from "gsap/ScrollToPlugin";
+
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollToPlugin);
+}
 
 const mediaSchema = z.array(
   z.object({
@@ -20,6 +26,24 @@ const mediaSchema = z.array(
 
 export default function Home() {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const [showBackToTop, setShowBackToTop] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 800) {
+        setShowBackToTop(true);
+      } else {
+        setShowBackToTop(false);
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const scrollToTop = () => {
+    gsap.to(window, { duration: 1.2, scrollTo: 0, ease: "power3.inOut" });
+  };
+
 
   const { data: images = [], isLoading } = useQuery({
     queryKey: ["favorite-images"],
@@ -42,31 +66,38 @@ export default function Home() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [selectedIndex, images.length]);
 
+  const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>, href: string) => {
+    e.preventDefault();
+    gsap.to(window, { duration: 1.2, scrollTo: href, ease: "power3.inOut" });
+  };
+
   return (
-    <div className="min-h-screen bg-[#050505] text-white selection:bg-white/30 font-sans dark custom-scrollbar overflow-hidden sm:overflow-auto">
+    <div className="min-h-screen bg-[#050505] text-white selection:bg-white/30 font-sans dark custom-scrollbar">
       {/* HEADER */}
-      <header className="absolute top-0 left-0 right-0 max-w-6xl mx-auto w-full z-50 flex items-center justify-between px-6 py-5 md:px-12 transition-all">
-        <Link href="#inicio" className="flex items-center">
+      <header className="absolute top-0 left-0 right-0 max-w-6xl mx-auto w-full z-50 flex items-center justify-between px-6 py-6 md:px-12 md:py-10 transition-all">
+        <Link href="#inicio" onClick={(e) => scrollToSection(e, "#inicio")} className="flex items-center">
           <Image src="/logo.png" alt="Merali Studio Logo" width={60} height={30} className="object-contain" />
         </Link>
-        <nav className="flex items-center space-x-6 md:space-x-10 text-[10px] md:text-xs font-semibold tracking-[0.2em] uppercase text-white/80">
-          <Link href="#inicio" className="hover:text-white transition-colors">
+        <nav className="flex items-center space-x-4 md:space-x-10 text-[10px] md:text-xs font-semibold tracking-[0.2em] uppercase text-white/80">
+          <Link href="#inicio" onClick={(e) => scrollToSection(e, "#inicio")} className="hover:text-white transition-colors">
             Início
           </Link>
-          <Link href="#quem-somos" className="hover:text-white transition-colors">
+          <Link href="#quem-somos" onClick={(e) => scrollToSection(e, "#quem-somos")} className="hover:text-white transition-colors">
             Quem Somos
           </Link>
-          <Link href="#projetos" className="hover:text-white transition-colors">
+          <Link href="#projetos" onClick={(e) => scrollToSection(e, "#projetos")} className="hover:text-white transition-colors">
             Projetos
           </Link>
           <Link
             href="#servicos"
+            onClick={(e) => scrollToSection(e, "#servicos")}
             className="hover:text-white transition-colors hidden sm:block"
           >
             Serviços
           </Link>
           <Link
             href="#vagas"
+            onClick={(e) => scrollToSection(e, "#vagas")}
             className="hover:text-white transition-colors hidden sm:block"
           >
             Vaga
@@ -92,39 +123,102 @@ export default function Home() {
           <div className="absolute inset-0 bg-linear-to-r from-[#050505] via-transparent to-[#050505]/30 block" />
         </div>
 
-        {/* Hero Content */}
-        <div className="relative z-20 w-full max-w-6xl mx-auto px-6 md:px-12 flex h-full items-end pb-32 md:pb-48 justify-end">
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 1, delay: 0.2 }}
-            className="flex items-center gap-6 md:gap-12"
-          >
-            <div className="max-w-3xl text-right flex flex-col items-end">
-              <h1 className="text-[3rem] sm:text-[5rem] md:text-[6.5rem] leading-[0.9] font-black uppercase tracking-tighter text-white drop-shadow-2xl hero-text">
-                <span className="block opacity-90">Explorando</span>
-                <span className="block text-transparent bg-clip-text bg-linear-to-br from-white via-white/80 to-white/20">
-                  Universos
-                </span>
-                <span className="block italic font-bold">Criativos</span>
-              </h1>
-              <p className="mt-8 max-w-sm text-xs md:text-sm text-white/50 tracking-widest uppercase font-medium border-r-2 border-white/30 pr-4">
-                Visualização arquitetônica de
-                <br />
-                alto impacto e precisão.
-              </p>
+        <div className="relative z-20 w-full max-w-6xl mx-auto px-6 md:px-12 pt-80 pb-32">
+          <div className="max-w-4xl text-left flex flex-col items-start">
+            <h1 className="text-[3.5rem] sm:text-[6rem] md:text-[8rem] leading-[0.85] font-black uppercase tracking-tighter text-white drop-shadow-2xl hero-text">
+              <motion.span 
+                initial={{ opacity: 0, y: 80 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
+                className="block overflow-hidden"
+              >
+                Pure
+              </motion.span>
+              <motion.span 
+                initial={{ opacity: 0, y: 80 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.35 }}
+                className="block text-transparent bg-clip-text bg-linear-to-b from-white to-white/10"
+              >
+                Visual
+              </motion.span>
+              <motion.span 
+                initial={{ opacity: 0, y: 80 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.5 }}
+                className="block italic font-light tracking-[-0.05em] lowercase opacity-50"
+              >
+                Prestige.
+              </motion.span>
+            </h1>
+            <div className="flex flex-col md:flex-row md:items-center gap-8 mt-12 w-full">
+              <motion.p 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1, delay: 0.9 }}
+                className="max-w-md text-[10px] md:text-sm text-white/40 tracking-[0.2em] uppercase font-bold leading-relaxed pr-6"
+              >
+                Elevando projetos arquitetônicos ao patamar de <br className="hidden md:block" /> obra de arte através do hiper-realismo extremo.
+              </motion.p>
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 1.2 }}
+                className="flex gap-4"
+              >
+                <Link href="#projetos" onClick={(e) => scrollToSection(e, "#projetos")} className="group relative px-8 py-4 bg-white text-black text-[10px] font-black uppercase tracking-widest rounded-full overflow-hidden transition-all hover:scale-105 active:scale-95">
+                  <span className="relative z-10">Explorar Portfolio</span>
+                </Link>
+              </motion.div>
             </div>
-          </motion.div>
+          </div>
         </div>
       </section>
 
-      {/* GALLERY SECTION (MASONRY WITHOUT GAPS EXACTLY LIKE REF 1) */}
+      {/* STRATEGIC SECTION: DEFINITION */}
+      <section id="quem-somos" className="relative w-full bg-[#050505] py-40 px-6 md:px-12 border-b border-white/5 overflow-hidden">
+         <div className="max-w-4xl mx-auto text-center flex flex-col items-center">
+            <motion.span 
+               initial={{ opacity: 0 }} 
+               whileInView={{ opacity: 0.3 }}
+               className="text-[10px] uppercase tracking-[0.8em] font-black mb-12 block"
+            >
+               Manifesto
+            </motion.span>
+            <motion.h2 
+               initial={{ opacity: 0, y: 30 }}
+               whileInView={{ opacity: 1, y: 0 }}
+               viewport={{ once: true }}
+               className="text-4xl md:text-6xl font-black uppercase tracking-tighter leading-[0.95] mb-8"
+            >
+               Não entregamos imagens. <br/>
+               <span className="text-white/40 italic">Entregamos o amanhã.</span>
+            </motion.h2>
+            <motion.p 
+               initial={{ opacity: 0, y: 20 }}
+               whileInView={{ opacity: 1, y: 0 }}
+               className="text-md md:text-xl text-white/60 font-light leading-relaxed max-w-2xl"
+            >
+               O Merali Studio nasceu da obsessão pelo detalhe. Atuamos como um laboratório de luz e atmosfera, onde cada pixel é esculpido para criar a ilusão perfeita da realidade. Atendemos nomes que moldam o skyline global.
+            </motion.p>
+         </div>
+      </section>
+
+      {/* GALLERY SECTION (CURATED WORLDS) */}
       <section
         id="projetos"
-        className="relative w-full bg-[#050505] z-20 pb-20"
+        className="relative w-full bg-[#050505] z-20 py-32"
       >
+        <div className="max-w-6xl mx-auto px-6 mb-20 flex justify-between items-end">
+            <div>
+                 <span className="text-[10px] uppercase tracking-[0.5em] font-black text-white/20 mb-4 block">Archive 01</span>
+                 <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tighter italic">Projetos <span className="opacity-40">Selecionados</span></h2>
+            </div>
+            <div className="hidden md:block text-right">
+                <span className="text-[10px] text-white/30 uppercase tracking-widest font-bold">Curadoria 2026/27</span>
+            </div>
+        </div>
         <div className="w-full">
-          {/* Note: columns logic using tailwind */}
           <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-2 w-full">
             {isLoading ? (
               <div className="col-span-full py-20 text-center text-[10px] md:text-sm font-semibold tracking-[0.2em] uppercase text-white/50 animate-pulse break-inside-avoid">
@@ -161,7 +255,52 @@ export default function Home() {
         </div>
       </section>
 
-      {/* FOOTER */}
+      {/* METODOLOGIA / SERVIÇOS */}
+      <section id="servicos" className="relative w-full bg-[#080808] py-40 px-6 md:px-12 overflow-hidden border-t border-white/5">
+        <div className="max-w-6xl mx-auto flex flex-col md:flex-row gap-12 items-start">
+            <div className="w-full md:w-1/3 py-2 border-l border-white/20 pl-8">
+                <span className="text-[10px] uppercase tracking-[0.5em] font-bold text-white/20 mb-6 block">Capabilities</span>
+                <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter leading-none mb-4">Fórmulas de <br/> <i className="font-light">Exelência.</i></h2>
+                <p className="text-xs text-white/40 uppercase tracking-widest font-bold">Protocolos customizados para projetos globais.</p>
+            </div>
+            <div className="w-full md:w-2/3 grid grid-cols-1 sm:grid-cols-2 gap-4">
+               {[
+                 { t: "CGI Static Renders", d: "Hiper-realismo de próxima geração para venda de imóveis de alto luxo." },
+                 { t: "Cinematic Film", d: "Tour virtuais com narrativa cinematográfica e sound design imersivo." },
+                 { t: "Art Direction", d: "Curadoria de luz, texturas e objetos para alinhar o projeto ao branding." },
+                 { t: "360 Immersive", d: "Experiências VR que permitem ao cliente caminhar pelo projeto antes da obra." }
+               ].map((item, i) => (
+                  <div key={i} className="group p-8 bg-white/2 border border-white/5 hover:border-white/20 transition-all duration-500">
+                     <h4 className="text-sm font-black uppercase tracking-widest mb-4 group-hover:text-white transition-colors">{item.t}</h4>
+                     <p className="text-[11px] text-white/40 leading-relaxed group-hover:text-white/60 transition-colors uppercase tracking-wider">{item.d}</p>
+                  </div>
+               ))}
+            </div>
+        </div>
+      </section>
+
+      {/* CONTACT SECTION (HIGH CONVERSION) */}
+      <section id="escritorio" className="relative w-full bg-[#050505] py-40 px-6 md:px-12 border-t border-white/5 flex flex-col items-center text-center">
+         <motion.div 
+           initial={{ opacity: 0, scale: 0.9 }}
+           whileInView={{ opacity: 1, scale: 1 }}
+           className="max-w-4xl"
+         >
+            <h2 className="text-5xl md:text-8xl font-black uppercase tracking-tighter leading-[0.85] mb-12">
+               Seu próximo <br/> <span className="text-transparent bg-clip-text bg-linear-to-b from-white/80 to-transparent">Marco Começa</span> <br/> Aqui.
+            </h2>
+            <div className="flex flex-col md:flex-row gap-6 justify-center items-center">
+               <a href="mailto:contato@merali.arq.br" className="px-12 py-6 bg-white text-black font-black text-xs uppercase tracking-[0.3em] rounded-full hover:scale-105 transition-transform active:scale-95">
+                  Iniciar Projeto.
+               </a>
+               <a href="#" className="px-12 py-6 border border-white/20 text-white font-black text-xs uppercase tracking-[0.3em] rounded-full hover:bg-white/5 transition-all">
+                  Book 2026/27
+               </a>
+            </div>
+         </motion.div>
+      </section>
+
+      {/* FOOTER RAZÃO SOCIAL */}
       <footer className="relative w-full bg-[#030303] text-white py-20 px-6 md:px-12 border-t border-white/5 overflow-hidden">
         {/* Subtle Github style glows */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-1 px-8 rounded-full bg-linear-to-r from-transparent via-white/20 to-transparent blur-sm"></div>
@@ -185,24 +324,28 @@ export default function Home() {
               </span>
               <Link
                 href="#inicio"
+                onClick={(e) => scrollToSection(e, "#inicio")}
                 className="hover:text-white transition-colors"
               >
                 Início
               </Link>
               <Link
                 href="#projetos"
+                onClick={(e) => scrollToSection(e, "#projetos")}
                 className="hover:text-white transition-colors"
               >
                 Projetos
               </Link>
               <Link
                 href="#escritorio"
+                onClick={(e) => scrollToSection(e, "#escritorio")}
                 className="hover:text-white transition-colors"
               >
                 Escritório
               </Link>
               <Link
                 href="#servicos"
+                onClick={(e) => scrollToSection(e, "#servicos")}
                 className="hover:text-white transition-colors"
               >
                 Serviços
@@ -246,7 +389,7 @@ export default function Home() {
         <div className="w-full max-w-6xl mx-auto mt-20 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center text-[10px] uppercase font-medium tracking-[0.2em] text-white/30">
           <p>© 2026 Merali Studio. Todos os direitos reservados.</p>
           <div className="flex items-center gap-4 mt-4 md:mt-0">
-            <span>Powered by Code</span>
+            <span>Powered by Merali Studio</span>
           </div>
         </div>
       </footer>
@@ -303,7 +446,7 @@ export default function Home() {
                    onClick={() => setSelectedIndex((prev) => (prev !== null && prev > 0 ? prev - 1 : images.length - 1))}
                 >
                   <Image
-                    src={images[selectedIndex === 0 ? images.length - 1 : selectedIndex - 1]}
+                    src={images[selectedIndex === 0 ? images.length - 1 : (selectedIndex as number) - 1]}
                     className="max-h-[85vh] w-auto object-contain opacity-20 hover:opacity-40 transition-opacity cursor-pointer"
                     alt="Previous"
                     width={1200}
@@ -323,7 +466,7 @@ export default function Home() {
                 className="relative z-10 w-full max-w-[80vw] mx-auto flex items-center justify-center p-4 md:p-0"
               >
                 <Image
-                  src={images[selectedIndex]}
+                  src={images[selectedIndex as number]}
                   alt="Gallery Selected"
                   className="max-h-[85vh] w-full object-contain shadow-2xl select-none"
                   width={1920}
@@ -339,7 +482,7 @@ export default function Home() {
                    onClick={() => setSelectedIndex((prev) => (prev !== null && prev < images.length - 1 ? prev + 1 : 0))}
                 >
                   <Image
-                    src={images[selectedIndex === images.length - 1 ? 0 : selectedIndex + 1]}
+                    src={images[selectedIndex === images.length - 1 ? 0 : (selectedIndex as number) + 1]}
                     className="max-h-[85vh] w-auto object-contain opacity-20 hover:opacity-40 transition-opacity cursor-pointer"
                     alt="Next"
                     width={1200}
@@ -354,6 +497,23 @@ export default function Home() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* BACK TO TOP BUTTON */}
+      <AnimatePresence>
+        {showBackToTop && (
+          <motion.button
+            initial={{ opacity: 0, y: 20, scale: 0.8 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 20, scale: 0.8 }}
+            onClick={scrollToTop}
+            className="fixed bottom-10 right-10 z-60 p-4 bg-white/10 backdrop-blur-xl border border-white/20 text-white rounded-full shadow-2xl hover:bg-white hover:text-black hover:scale-110 active:scale-95 transition-all group"
+          >
+            <ChevronUp className="w-6 h-6 group-hover:-translate-y-1 transition-transform" />
+          </motion.button>
+        )}
+      </AnimatePresence>
+
     </div>
+
   );
 }
