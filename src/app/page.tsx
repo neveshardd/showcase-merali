@@ -89,18 +89,11 @@ export default function Home() {
             Projetos
           </Link>
           <Link
-            href="#servicos"
-            onClick={(e) => scrollToSection(e, "#servicos")}
+            href="#contato"
+            onClick={(e) => scrollToSection(e, "#contato")}
             className="hover:text-white transition-colors hidden sm:block"
           >
-            Serviços
-          </Link>
-          <Link
-            href="#vagas"
-            onClick={(e) => scrollToSection(e, "#vagas")}
-            className="hover:text-white transition-colors hidden sm:block"
-          >
-            Vaga
+            Contato
           </Link>
         </nav>
       </header>
@@ -255,7 +248,7 @@ export default function Home() {
       </section>
 
       {/* CONTACT SECTION (HIGH CONVERSION) */}
-      <section id="escritorio" className="relative w-full bg-[#050505] py-40 px-6 md:px-12 border-t border-white/5 flex flex-col items-center text-center">
+      <section id="contato" className="relative w-full bg-[#050505] py-40 px-6 md:px-12 border-t border-white/5 flex flex-col items-center text-center">
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           whileInView={{ opacity: 1, scale: 1 }}
