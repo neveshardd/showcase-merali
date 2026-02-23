@@ -96,7 +96,12 @@ showcase-merali/
 ## 📞 Contato
 
 **Merali Studio**
+<<<<<<< HEAD
 - **E-mail:** contato@merali.arq.br
 - **Localização:** São Paulo, SP, Brasil
+=======
+- **E-mail:** contato@merali.com.br
+- **Localização:** Brasília, DF, Brasil
+>>>>>>> d5d2d945fb14ed19a16a4fa955d59f1f5d25d983
 
 © 2026 Merali Studio. Todos os direitos reservados.
