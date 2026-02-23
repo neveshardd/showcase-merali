@@ -309,16 +309,16 @@ export default function Home() {
               <span className="text-white mb-2 text-[10px] opacity-50">
                 Social
               </span>
-              <a href="#" className="hover:text-white transition-colors">
+              <a href="https://www.instagram.com/archmerali" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">
                 Instagram
               </a>
-              <a href="#" className="hover:text-white transition-colors">
+              <a href="https://www.linkedin.com/company/merali-studio/" className="hover:text-white transition-colors" target="_blank" rel="noopener noreferrer">
                 LinkedIn
               </a>
-              <a href="#" className="hover:text-white transition-colors">
+              <a href="https://www.pinterest.com/meralistudio/" className="hover:text-white transition-colors" target="_blank" rel="noopener noreferrer">
                 Pinterest
               </a>
-              <a href="#" className="hover:text-white transition-colors">
+              <a href="https://www.behance.net/meralistudio" className="hover:text-white transition-colors" target="_blank" rel="noopener noreferrer">
                 Behance
               </a>
             </div>
