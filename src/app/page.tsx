@@ -158,7 +158,7 @@ export default function Home() {
                 transition={{ duration: 1, delay: 0.9 }}
                 className="max-w-md text-[10px] md:text-sm text-white/40 tracking-[0.2em] uppercase font-bold leading-relaxed pr-6"
               >
-                Elevando projetos arquitetônicos ao patamar de <br className="hidden md:block" /> obra de arte através do hiper-realismo extremo.
+                Elevando projetos arquitetônicos ao <br className="hidden md:block" />patamar de obra de arte através do hiper-realismo extremo.
               </motion.p>
               <motion.div
                 initial={{ opacity: 0 }}
@@ -199,7 +199,7 @@ export default function Home() {
                whileInView={{ opacity: 1, y: 0 }}
                className="text-md md:text-xl text-white/60 font-light leading-relaxed max-w-2xl"
             >
-               O Merali Studio nasceu da obsessão pelo detalhe. Atuamos como um laboratório de luz e atmosfera, onde cada pixel é esculpido para criar a ilusão perfeita da realidade. Atendemos nomes que moldam o skyline global.
+               A Merali Studio nasceu da obsessão pelo detalhe. Atuamos como um laboratório de luz e atmosfera, onde cada pixel é esculpido para criar a ilusão perfeita da realidade. Atendemos nomes que moldam o skyline global.
             </motion.p>
          </div>
       </section>
@@ -211,11 +211,10 @@ export default function Home() {
       >
         <div className="max-w-6xl mx-auto px-6 mb-20 flex justify-between items-end">
             <div>
-                 <span className="text-[10px] uppercase tracking-[0.5em] font-black text-white/20 mb-4 block">Archive 01</span>
                  <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tighter italic">Projetos <span className="opacity-40">Selecionados</span></h2>
             </div>
             <div className="hidden md:block text-right">
-                <span className="text-[10px] text-white/30 uppercase tracking-widest font-bold">Curadoria 2026/27</span>
+                <span className="text-[10px] text-white/30 uppercase tracking-widest font-bold">Curadoria</span>
             </div>
         </div>
         <div className="w-full">
