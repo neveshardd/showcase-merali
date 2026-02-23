@@ -255,30 +255,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* METODOLOGIA / SERVIÇOS */}
-      <section id="servicos" className="relative w-full bg-[#080808] py-40 px-6 md:px-12 overflow-hidden border-t border-white/5">
-        <div className="max-w-6xl mx-auto flex flex-col md:flex-row gap-12 items-start">
-            <div className="w-full md:w-1/3 py-2 border-l border-white/20 pl-8">
-                <span className="text-[10px] uppercase tracking-[0.5em] font-bold text-white/20 mb-6 block">Capabilities</span>
-                <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter leading-none mb-4">Fórmulas de <br/> <i className="font-light">Exelência.</i></h2>
-                <p className="text-xs text-white/40 uppercase tracking-widest font-bold">Protocolos customizados para projetos globais.</p>
-            </div>
-            <div className="w-full md:w-2/3 grid grid-cols-1 sm:grid-cols-2 gap-4">
-               {[
-                 { t: "CGI Static Renders", d: "Hiper-realismo de próxima geração para venda de imóveis de alto luxo." },
-                 { t: "Cinematic Film", d: "Tour virtuais com narrativa cinematográfica e sound design imersivo." },
-                 { t: "Art Direction", d: "Curadoria de luz, texturas e objetos para alinhar o projeto ao branding." },
-                 { t: "360 Immersive", d: "Experiências VR que permitem ao cliente caminhar pelo projeto antes da obra." }
-               ].map((item, i) => (
-                  <div key={i} className="group p-8 bg-white/2 border border-white/5 hover:border-white/20 transition-all duration-500">
-                     <h4 className="text-sm font-black uppercase tracking-widest mb-4 group-hover:text-white transition-colors">{item.t}</h4>
-                     <p className="text-[11px] text-white/40 leading-relaxed group-hover:text-white/60 transition-colors uppercase tracking-wider">{item.d}</p>
-                  </div>
-               ))}
-            </div>
-        </div>
-      </section>
-
       {/* CONTACT SECTION (HIGH CONVERSION) */}
       <section id="escritorio" className="relative w-full bg-[#050505] py-40 px-6 md:px-12 border-t border-white/5 flex flex-col items-center text-center">
          <motion.div 
