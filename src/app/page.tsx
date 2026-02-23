@@ -261,9 +261,6 @@ export default function Home() {
             <a href="mailto:contato@merali.com.br" className="px-12 py-6 bg-white text-black font-black text-xs uppercase tracking-[0.3em] rounded-full hover:scale-105 transition-transform active:scale-95">
               Enviar Email
             </a>
-            <a href="#" className="px-12 py-6 border border-white/20 text-white font-black text-xs uppercase tracking-[0.3em] rounded-full hover:bg-white/5 transition-all">
-              Fazer Orçamento
-            </a>
           </div>
         </motion.div>
       </section>
@@ -312,13 +309,10 @@ export default function Home() {
               <a href="https://www.instagram.com/archmerali" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">
                 Instagram
               </a>
-              <a href="https://www.linkedin.com/company/merali-studio/" className="hover:text-white transition-colors" target="_blank" rel="noopener noreferrer">
-                LinkedIn
-              </a>
-              <a href="https://www.pinterest.com/meralistudio/" className="hover:text-white transition-colors" target="_blank" rel="noopener noreferrer">
+              <a href="https://br.pinterest.com/archmerali/" className="hover:text-white transition-colors" target="_blank" rel="noopener noreferrer">
                 Pinterest
               </a>
-              <a href="https://www.behance.net/meralistudio" className="hover:text-white transition-colors" target="_blank" rel="noopener noreferrer">
+              <a href="https://www.behance.net/archmerali" className="hover:text-white transition-colors" target="_blank" rel="noopener noreferrer">
                 Behance
               </a>
             </div>
