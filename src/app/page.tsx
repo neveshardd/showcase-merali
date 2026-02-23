@@ -126,7 +126,7 @@ export default function Home() {
         <div className="relative z-20 w-full max-w-6xl mx-auto px-6 md:px-12 pt-80 pb-32">
           <div className="max-w-4xl text-left flex flex-col items-start">
             <h1 className="text-[3.5rem] sm:text-[6rem] md:text-[8rem] leading-[0.85] font-black uppercase tracking-tighter text-white drop-shadow-2xl hero-text">
-              <motion.span 
+              <motion.span
                 initial={{ opacity: 0, y: 80 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
@@ -134,7 +134,7 @@ export default function Home() {
               >
                 Pure
               </motion.span>
-              <motion.span 
+              <motion.span
                 initial={{ opacity: 0, y: 80 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.35 }}
@@ -142,7 +142,7 @@ export default function Home() {
               >
                 Visual
               </motion.span>
-              <motion.span 
+              <motion.span
                 initial={{ opacity: 0, y: 80 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.5 }}
@@ -152,7 +152,7 @@ export default function Home() {
               </motion.span>
             </h1>
             <div className="flex flex-col md:flex-row md:items-center gap-8 mt-12 w-full">
-              <motion.p 
+              <motion.p
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1, delay: 0.9 }}
@@ -177,31 +177,31 @@ export default function Home() {
 
       {/* STRATEGIC SECTION: DEFINITION */}
       <section id="quem-somos" className="relative w-full bg-[#050505] py-40 px-6 md:px-12 border-b border-white/5 overflow-hidden">
-         <div className="max-w-4xl mx-auto text-center flex flex-col items-center">
-            <motion.span 
-               initial={{ opacity: 0 }} 
-               whileInView={{ opacity: 0.3 }}
-               className="text-[10px] uppercase tracking-[0.8em] font-black mb-12 block"
-            >
-               Manifesto
-            </motion.span>
-            <motion.h2 
-               initial={{ opacity: 0, y: 30 }}
-               whileInView={{ opacity: 1, y: 0 }}
-               viewport={{ once: true }}
-               className="text-4xl md:text-6xl font-black uppercase tracking-tighter leading-[0.95] mb-8"
-            >
-               Não entregamos imagens. <br/>
-               <span className="text-white/40 italic">Entregamos o amanhã.</span>
-            </motion.h2>
-            <motion.p 
-               initial={{ opacity: 0, y: 20 }}
-               whileInView={{ opacity: 1, y: 0 }}
-               className="text-md md:text-xl text-white/60 font-light leading-relaxed max-w-2xl"
-            >
-               A Merali Studio nasceu da obsessão pelo detalhe. Atuamos como um laboratório de luz e atmosfera, onde cada pixel é esculpido para criar a ilusão perfeita da realidade. Atendemos nomes que moldam o skyline global.
-            </motion.p>
-         </div>
+        <div className="max-w-4xl mx-auto text-center flex flex-col items-center">
+          <motion.span
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 0.3 }}
+            className="text-[10px] uppercase tracking-[0.8em] font-black mb-12 block"
+          >
+            Manifesto
+          </motion.span>
+          <motion.h2
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-4xl md:text-6xl font-black uppercase tracking-tighter leading-[0.95] mb-8"
+          >
+            Não entregamos imagens. <br />
+            <span className="text-white/40 italic">Entregamos o amanhã.</span>
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            className="text-md md:text-xl text-white/60 font-light leading-relaxed max-w-2xl"
+          >
+            A Merali Studio nasceu da obsessão pelo detalhe. Atuamos como um laboratório de luz e atmosfera, onde cada pixel é esculpido para criar a ilusão perfeita da realidade. Atendemos nomes que moldam o skyline global.
+          </motion.p>
+        </div>
       </section>
 
       {/* GALLERY SECTION (CURATED WORLDS) */}
@@ -210,18 +210,18 @@ export default function Home() {
         className="relative w-full bg-[#050505] z-20 py-32"
       >
         <div className="max-w-6xl mx-auto px-6 mb-20 flex justify-between items-end">
-            <div>
-                 <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tighter italic">Projetos <span className="opacity-40">Selecionados</span></h2>
-            </div>
-            <div className="hidden md:block text-right">
-                <span className="text-[10px] text-white/30 uppercase tracking-widest font-bold">Curadoria</span>
-            </div>
+          <div>
+            <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tighter italic">Projetos <span className="opacity-40">Selecionados</span></h2>
+          </div>
+          <div className="hidden md:block text-right">
+            <span className="text-[10px] text-white/30 uppercase tracking-widest font-bold">Curadoria</span>
+          </div>
         </div>
         <div className="w-full">
           <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-2 w-full">
             {isLoading ? (
               <div className="col-span-full py-20 text-center text-[10px] md:text-sm font-semibold tracking-[0.2em] uppercase text-white/50 animate-pulse break-inside-avoid">
-                Carregando universos...
+                Carregando...
               </div>
             ) : images.length === 0 ? (
               <div className="col-span-full py-20 text-center text-[10px] md:text-sm font-semibold tracking-[0.2em] uppercase text-white/50 break-inside-avoid">
@@ -256,23 +256,23 @@ export default function Home() {
 
       {/* CONTACT SECTION (HIGH CONVERSION) */}
       <section id="escritorio" className="relative w-full bg-[#050505] py-40 px-6 md:px-12 border-t border-white/5 flex flex-col items-center text-center">
-         <motion.div 
-           initial={{ opacity: 0, scale: 0.9 }}
-           whileInView={{ opacity: 1, scale: 1 }}
-           className="max-w-4xl"
-         >
-            <h2 className="text-5xl md:text-8xl font-black uppercase tracking-tighter leading-[0.85] mb-12">
-               Seu próximo <br/> <span className="text-transparent bg-clip-text bg-linear-to-b from-white/80 to-transparent">Marco Começa</span> <br/> Aqui.
-            </h2>
-            <div className="flex flex-col md:flex-row gap-6 justify-center items-center">
-               <a href="mailto:contato@merali.arq.br" className="px-12 py-6 bg-white text-black font-black text-xs uppercase tracking-[0.3em] rounded-full hover:scale-105 transition-transform active:scale-95">
-                  Iniciar Projeto.
-               </a>
-               <a href="#" className="px-12 py-6 border border-white/20 text-white font-black text-xs uppercase tracking-[0.3em] rounded-full hover:bg-white/5 transition-all">
-                  Book 2026/27
-               </a>
-            </div>
-         </motion.div>
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          className="max-w-4xl"
+        >
+          <h2 className="text-5xl md:text-8xl font-black uppercase tracking-tighter leading-[0.85] mb-12">
+            Seu próximo <br /> <span className="text-transparent bg-clip-text bg-linear-to-b from-white/80 to-transparent">Marco Começa</span> <br /> Aqui.
+          </h2>
+          <div className="flex flex-col md:flex-row gap-6 justify-center items-center">
+            <a href="mailto:contato@merali.com.br" className="px-12 py-6 bg-white text-black font-black text-xs uppercase tracking-[0.3em] rounded-full hover:scale-105 transition-transform active:scale-95">
+              Enviar Email
+            </a>
+            <a href="#" className="px-12 py-6 border border-white/20 text-white font-black text-xs uppercase tracking-[0.3em] rounded-full hover:bg-white/5 transition-all">
+              Fazer Orçamento
+            </a>
+          </div>
+        </motion.div>
       </section>
 
       {/* FOOTER RAZÃO SOCIAL */}
@@ -287,9 +287,9 @@ export default function Home() {
               <br />
               algo juntos?
             </h2>
-            <Button className="mt-4 px-8 py-6 bg-white text-black hover:bg-white/90 text-xs font-bold tracking-widest uppercase rounded-full transition-all self-start w-max">
+            <Link href="https://wa.me/5561999999999" target="_blank" className="cursor-pointer mt-4 px-8 py-6 bg-white text-black hover:bg-white/90 text-xs font-bold tracking-widest uppercase rounded-full transition-all self-start w-max">
               Entrar em contato
-            </Button>
+            </Link>
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-3 gap-10 text-xs tracking-widest uppercase font-medium text-white/60">
@@ -311,20 +311,6 @@ export default function Home() {
               >
                 Projetos
               </Link>
-              <Link
-                href="#escritorio"
-                onClick={(e) => scrollToSection(e, "#escritorio")}
-                className="hover:text-white transition-colors"
-              >
-                Escritório
-              </Link>
-              <Link
-                href="#servicos"
-                onClick={(e) => scrollToSection(e, "#servicos")}
-                className="hover:text-white transition-colors"
-              >
-                Serviços
-              </Link>
             </div>
             <div className="flex flex-col gap-3">
               <span className="text-white mb-2 text-[10px] opacity-50">
@@ -345,18 +331,18 @@ export default function Home() {
             </div>
             <div className="flex flex-col gap-3 col-span-2 md:col-span-1">
               <span className="text-white mb-2 text-[10px] opacity-50">
-                Contato
+                Whatsapp
               </span>
               <a
-                href="mailto:contato@merali.arq.br"
+                href="mailto:contato@merali.com.br"
                 className="hover:text-white transition-colors normal-case tracking-normal"
               >
-                contato@merali.arq.br
+                contato@merali.com.br
               </a>
               <span className="normal-case tracking-normal">
-                +55 11 99999-9999
+                +55 61 99999-9999
               </span>
-              <span className="normal-case tracking-normal">São Paulo, SP</span>
+              <span className="normal-case tracking-normal">Brasília, DF</span>
             </div>
           </div>
         </div>
@@ -416,9 +402,9 @@ export default function Home() {
             <div className="w-full h-full flex items-center justify-center relative">
               {/* Previous Image Background */}
               {images.length > 1 && (
-                <div 
-                   className="hidden md:flex absolute right-[85vw] h-full items-center justify-end w-[50vw] select-none"
-                   onClick={() => setSelectedIndex((prev) => (prev !== null && prev > 0 ? prev - 1 : images.length - 1))}
+                <div
+                  className="hidden md:flex absolute right-[85vw] h-full items-center justify-end w-[50vw] select-none"
+                  onClick={() => setSelectedIndex((prev) => (prev !== null && prev > 0 ? prev - 1 : images.length - 1))}
                 >
                   <Image
                     src={images[selectedIndex === 0 ? images.length - 1 : (selectedIndex as number) - 1]}
@@ -452,9 +438,9 @@ export default function Home() {
 
               {/* Next Image Background */}
               {images.length > 1 && (
-                <div 
-                   className="hidden md:flex absolute left-[85vw] h-full items-center justify-start w-[50vw] select-none"
-                   onClick={() => setSelectedIndex((prev) => (prev !== null && prev < images.length - 1 ? prev + 1 : 0))}
+                <div
+                  className="hidden md:flex absolute left-[85vw] h-full items-center justify-start w-[50vw] select-none"
+                  onClick={() => setSelectedIndex((prev) => (prev !== null && prev < images.length - 1 ? prev + 1 : 0))}
                 >
                   <Image
                     src={images[selectedIndex === images.length - 1 ? 0 : (selectedIndex as number) + 1]}
@@ -467,7 +453,7 @@ export default function Home() {
                 </div>
               )}
             </div>
-            
+
             <div className="absolute inset-0 z-0 bg-transparent" onClick={() => setSelectedIndex(null)} />
           </motion.div>
         )}
