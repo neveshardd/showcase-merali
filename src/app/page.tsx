@@ -4,8 +4,7 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { Button } from "@/components/ui/button";
-import { X, ChevronLeft, ChevronRight, ChevronUp } from "lucide-react";
+import { X, ChevronLeft, ChevronRight, ChevronUp, Loader2 } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { z } from "zod";
@@ -24,9 +23,44 @@ const mediaSchema = z.array(
   }).passthrough()
 );
 
+function GalleryItem({ img, i, onClick }: { img: string; i: number; onClick: () => void }) {
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  return (
+    <motion.div
+      onClick={onClick}
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-100px" }}
+      transition={{ duration: 0.6, delay: (i % 5) * 0.15 }}
+      className="relative w-full break-inside-avoid overflow-hidden mb-2 cursor-pointer group rounded-lg"
+    >
+      {/* Skeleton/Loader */}
+      {!isLoaded && (
+        <div className="absolute inset-0 bg-white/5 animate-pulse flex items-center justify-center">
+          <div className="w-10 h-10 border-2 border-white/10 border-t-white/40 rounded-full animate-spin"></div>
+        </div>
+      )}
+
+      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors z-10" />
+      <Image
+        src={img}
+        alt={`Portfolio ${i}`}
+        loading="lazy"
+        width={1200}
+        height={1200}
+        onLoad={() => setIsLoaded(true)}
+        className={`w-full h-auto object-cover transition-all duration-700 ${isLoaded ? "opacity-100 scale-100" : "opacity-0 scale-105"
+          }`}
+      />
+    </motion.div>
+  );
+}
+
 export default function Home() {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [showBackToTop, setShowBackToTop] = useState(false);
+  const [isModalImageLoaded, setIsModalImageLoaded] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -48,7 +82,7 @@ export default function Home() {
   const { data: images = [], isLoading } = useQuery({
     queryKey: ["favorite-images"],
     queryFn: async () => {
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
       const { data } = await axios.get(`${apiUrl}/api/media`);
       const parsed = mediaSchema.parse(data);
       return parsed.filter((img) => img.isFavorite).map((img) => img.url);
@@ -65,6 +99,16 @@ export default function Home() {
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [selectedIndex, images.length]);
+
+  useEffect(() => {
+    setIsModalImageLoaded(false);
+  }, [selectedIndex]);
+
+  useEffect(() => {
+    if (selectedIndex === null) {
+      setIsModalImageLoaded(false);
+    }
+  }, [selectedIndex]);
 
   const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>, href: string) => {
     e.preventDefault();
@@ -210,40 +254,32 @@ export default function Home() {
             <span className="text-[10px] text-white/30 uppercase tracking-widest font-bold">Curadoria</span>
           </div>
         </div>
-        <div className="w-full">
-          <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-2 w-full">
-            {isLoading ? (
-              <div className="col-span-full py-20 text-center text-[10px] md:text-sm font-semibold tracking-[0.2em] uppercase text-white/50 animate-pulse break-inside-avoid">
-                Carregando...
-              </div>
-            ) : images.length === 0 ? (
-              <div className="col-span-full py-20 text-center text-[10px] md:text-sm font-semibold tracking-[0.2em] uppercase text-white/50 break-inside-avoid">
-                Nenhum projeto em destaque.
-              </div>
-            ) : null}
-            {images.map((img, i) => (
-              <motion.div
-                key={i}
-                onClick={() => setSelectedIndex(i)}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 0.6, delay: (i % 5) * 0.15 }}
-                className="relative w-full break-inside-avoid overflow-hidden mb-2 cursor-pointer group"
-              >
-                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors z-10" />
-                <Image
-                  src={img}
-                  alt={`Portfolio ${i}`}
-                  loading="lazy"
-                  width={1200}
-                  height={1200}
-                  unoptimized
-                  className="w-full h-auto object-cover"
+        <div className="w-full px-6">
+          {isLoading ? (
+            <div className="flex flex-col items-center justify-center py-60 gap-6 w-full">
+              <Loader2 className="w-12 h-12 text-white/20 animate-spin" strokeWidth={1} />
+              <span className="text-[10px] md:text-xs font-black tracking-[0.4em] uppercase text-white/30">
+                Sincronizando Galeria
+              </span>
+            </div>
+          ) : images.length === 0 ? (
+            <div className="py-40 flex flex-col items-center justify-center w-full">
+              <span className="text-[10px] md:text-sm font-semibold tracking-[0.2em] uppercase text-white/20">
+                Nenhum projeto em destaque no momento.
+              </span>
+            </div>
+          ) : (
+            <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-2 w-full">
+              {images.map((img, i) => (
+                <GalleryItem
+                  key={i}
+                  img={img}
+                  i={i}
+                  onClick={() => setSelectedIndex(i)}
                 />
-              </motion.div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
@@ -399,7 +435,6 @@ export default function Home() {
                     alt="Previous"
                     width={1200}
                     height={1200}
-                    unoptimized
                   />
                 </div>
               )}
@@ -413,13 +448,23 @@ export default function Home() {
                 transition={{ duration: 0.4, ease: [0.23, 1, 0.32, 1] }}
                 className="relative z-10 w-full max-w-[80vw] mx-auto flex items-center justify-center p-4 md:p-0"
               >
+                {!isModalImageLoaded && (
+                  <div className="absolute inset-0 flex flex-col items-center justify-center gap-6 z-20">
+                    <Loader2 className="w-16 h-16 text-white/10 animate-spin" strokeWidth={1} />
+                    <span className="text-[10px] uppercase tracking-[0.5em] text-white/30 font-black">
+                      Carregando Obra
+                    </span>
+                  </div>
+                )}
                 <Image
                   src={images[selectedIndex as number]}
                   alt="Gallery Selected"
-                  className="max-h-[85vh] w-full object-contain shadow-2xl select-none"
+                  onLoad={() => setIsModalImageLoaded(true)}
+                  className={`max-h-[85vh] w-full object-contain shadow-2xl select-none transition-all duration-1000 ${isModalImageLoaded ? "opacity-100 scale-100" : "opacity-0 scale-110"
+                    }`}
                   width={1920}
                   height={1080}
-                  unoptimized
+                  priority
                 />
               </motion.div>
 
@@ -435,7 +480,6 @@ export default function Home() {
                     alt="Next"
                     width={1200}
                     height={1200}
-                    unoptimized
                   />
                 </div>
               )}
