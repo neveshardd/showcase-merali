@@ -35,7 +35,7 @@ function GalleryItem({ img, i, onClick }: { img: string; i: number; onClick: () 
       transition={{ duration: 0.6, delay: (i % 5) * 0.15 }}
       className="relative w-full break-inside-avoid overflow-hidden mb-2 cursor-pointer group rounded-lg"
     >
-      {/* Skeleton/Loader */}
+      {/* Skeleton / Loader */}
       {!isLoaded && (
         <div className="absolute inset-0 bg-white/5 animate-pulse flex items-center justify-center">
           <div className="w-10 h-10 border-2 border-white/10 border-t-white/40 rounded-full animate-spin"></div>
@@ -57,10 +57,36 @@ function GalleryItem({ img, i, onClick }: { img: string; i: number; onClick: () 
   );
 }
 
+function ModalImage({ src, alt }: { src: string; alt: string }) {
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  return (
+    <div className="relative z-10 w-full max-w-[80vw] mx-auto flex items-center justify-center p-4 md:p-0">
+      {!isLoaded && (
+        <div className="absolute inset-0 flex flex-col items-center justify-center gap-6 z-20">
+          <Loader2 className="w-16 h-16 text-white/10 animate-spin" strokeWidth={1} />
+          <span className="text-[10px] uppercase tracking-[0.5em] text-white/30 font-black">
+            Carregando Obra
+          </span>
+        </div>
+      )}
+      <Image
+        src={src}
+        alt={alt}
+        onLoad={() => setIsLoaded(true)}
+        className={`max-h-[85vh] w-full object-contain shadow-2xl select-none transition-all duration-1000 ${isLoaded ? "opacity-100 scale-100" : "opacity-0 scale-110"
+          }`}
+        width={1920}
+        height={1080}
+        priority
+      />
+    </div>
+  );
+}
+
 export default function Home() {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [showBackToTop, setShowBackToTop] = useState(false);
-  const [isModalImageLoaded, setIsModalImageLoaded] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -100,16 +126,6 @@ export default function Home() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [selectedIndex, images.length]);
 
-  useEffect(() => {
-    setIsModalImageLoaded(false);
-  }, [selectedIndex]);
-
-  useEffect(() => {
-    if (selectedIndex === null) {
-      setIsModalImageLoaded(false);
-    }
-  }, [selectedIndex]);
-
   const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>, href: string) => {
     e.preventDefault();
     gsap.to(window, { duration: 1.2, scrollTo: href, ease: "power3.inOut" });
@@ -118,28 +134,30 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-[#050505] text-white selection:bg-white/30 font-sans dark custom-scrollbar">
       {/* HEADER */}
-      <header className="absolute top-0 left-0 right-0 max-w-6xl mx-auto w-full z-50 flex items-center justify-between px-6 py-6 md:px-12 md:py-10 transition-all">
-        <Link href="#inicio" onClick={(e) => scrollToSection(e, "#inicio")} className="flex items-center">
-          <Image src="/logo.png" alt="Merali Studio Logo" width={60} height={30} className="object-contain" />
-        </Link>
-        <nav className="flex items-center space-x-4 md:space-x-10 text-[10px] md:text-xs font-semibold tracking-[0.2em] uppercase text-white/80">
-          <Link href="#inicio" onClick={(e) => scrollToSection(e, "#inicio")} className="hover:text-white transition-colors">
-            Início
+      <header className="absolute top-0 left-0 right-0 w-full z-50 px-6 md:px-12 transition-all">
+        <div className="max-w-6xl mx-auto flex items-center justify-between py-6 md:py-10">
+          <Link href="#inicio" onClick={(e) => scrollToSection(e, "#inicio")} className="flex items-center">
+            <Image src="/logo.png" alt="Merali Studio Logo" width={60} height={30} className="object-contain" />
           </Link>
-          <Link href="#quem-somos" onClick={(e) => scrollToSection(e, "#quem-somos")} className="hover:text-white transition-colors">
-            Quem Somos
-          </Link>
-          <Link href="#projetos" onClick={(e) => scrollToSection(e, "#projetos")} className="hover:text-white transition-colors">
-            Projetos
-          </Link>
-          <Link
-            href="#contato"
-            onClick={(e) => scrollToSection(e, "#contato")}
-            className="hover:text-white transition-colors hidden sm:block"
-          >
-            Contato
-          </Link>
-        </nav>
+          <nav className="flex items-center space-x-4 md:space-x-10 text-[10px] md:text-xs font-semibold tracking-[0.2em] uppercase text-white/80">
+            <Link href="#inicio" onClick={(e) => scrollToSection(e, "#inicio")} className="hover:text-white transition-colors">
+              Início
+            </Link>
+            <Link href="#quem-somos" onClick={(e) => scrollToSection(e, "#quem-somos")} className="hover:text-white transition-colors">
+              Quem Somos
+            </Link>
+            <Link href="#projetos" onClick={(e) => scrollToSection(e, "#projetos")} className="hover:text-white transition-colors">
+              Projetos
+            </Link>
+            <Link
+              href="#contato"
+              onClick={(e) => scrollToSection(e, "#contato")}
+              className="hover:text-white transition-colors hidden sm:block"
+            >
+              Contato
+            </Link>
+          </nav>
+        </div>
       </header>
 
       {/* HERO SECTION */}
@@ -160,53 +178,55 @@ export default function Home() {
           <div className="absolute inset-0 bg-linear-to-r from-[#050505] via-transparent to-[#050505]/30 block" />
         </div>
 
-        <div className="relative z-20 w-full max-w-6xl mx-auto px-6 md:px-12 pt-80 pb-32">
-          <div className="max-w-4xl text-left flex flex-col items-start">
-            <h1 className="text-[3.5rem] sm:text-[6rem] md:text-[8rem] leading-[0.85] font-black uppercase tracking-tighter text-white drop-shadow-2xl hero-text">
-              <motion.span
-                initial={{ opacity: 0, y: 80 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
-                className="block overflow-hidden"
-              >
-                Pure
-              </motion.span>
-              <motion.span
-                initial={{ opacity: 0, y: 80 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.35 }}
-                className="block text-transparent bg-clip-text bg-linear-to-b from-white to-white/10"
-              >
-                Visual
-              </motion.span>
-              <motion.span
-                initial={{ opacity: 0, y: 80 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.5 }}
-                className="block italic font-light tracking-[-0.05em] lowercase opacity-50"
-              >
-                Prestige.
-              </motion.span>
-            </h1>
-            <div className="flex flex-col md:flex-row md:items-center gap-8 mt-12 w-full">
-              <motion.p
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1, delay: 0.9 }}
-                className="max-w-md text-[10px] md:text-sm text-white/40 tracking-[0.2em] uppercase font-bold leading-relaxed pr-6"
-              >
-                Elevando projetos arquitetônicos ao <br className="hidden md:block" />patamar de obra de arte através do hiper-realismo extremo.
-              </motion.p>
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 1.2 }}
-                className="flex gap-4"
-              >
-                <Link href="#projetos" onClick={(e) => scrollToSection(e, "#projetos")} className="group relative px-8 py-4 bg-white text-black text-[10px] font-black uppercase tracking-widest rounded-full overflow-hidden transition-all hover:scale-105 active:scale-95">
-                  <span className="relative z-10">Explorar Portfolio</span>
-                </Link>
-              </motion.div>
+        <div className="relative z-20 w-full px-6 md:px-12">
+          <div className="max-w-6xl mx-auto pt-80 pb-32">
+            <div className="max-w-4xl text-left flex flex-col items-start">
+              <h1 className="text-[3.5rem] sm:text-[6rem] md:text-[8rem] leading-[0.85] font-black uppercase tracking-tighter text-white drop-shadow-2xl hero-text">
+                <motion.span
+                  initial={{ opacity: 0, y: 80 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
+                  className="block overflow-hidden"
+                >
+                  Pure
+                </motion.span>
+                <motion.span
+                  initial={{ opacity: 0, y: 80 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.35 }}
+                  className="block text-transparent bg-clip-text bg-linear-to-b from-white to-white/10"
+                >
+                  Visual
+                </motion.span>
+                <motion.span
+                  initial={{ opacity: 0, y: 80 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.5 }}
+                  className="block italic font-light tracking-[-0.05em] lowercase opacity-50"
+                >
+                  Prestige.
+                </motion.span>
+              </h1>
+              <div className="flex flex-col md:flex-row md:items-center gap-8 mt-12 w-full">
+                <motion.p
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 1, delay: 0.9 }}
+                  className="max-w-md text-[10px] md:text-sm text-white/40 tracking-[0.2em] uppercase font-bold leading-relaxed pr-6"
+                >
+                  Elevando projetos arquitetônicos ao <br className="hidden md:block" />patamar de obra de arte através do hiper-realismo extremo.
+                </motion.p>
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 1.2 }}
+                  className="flex gap-4"
+                >
+                  <Link href="#projetos" onClick={(e) => scrollToSection(e, "#projetos")} className="group relative px-8 py-4 bg-white text-black text-[10px] font-black uppercase tracking-widest rounded-full overflow-hidden transition-all hover:scale-105 active:scale-95">
+                    <span className="relative z-10">Explorar Portfolio</span>
+                  </Link>
+                </motion.div>
+              </div>
             </div>
           </div>
         </div>
@@ -446,25 +466,11 @@ export default function Home() {
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.98 }}
                 transition={{ duration: 0.4, ease: [0.23, 1, 0.32, 1] }}
-                className="relative z-10 w-full max-w-[80vw] mx-auto flex items-center justify-center p-4 md:p-0"
+                className="w-full flex items-center justify-center p-4 md:p-0"
               >
-                {!isModalImageLoaded && (
-                  <div className="absolute inset-0 flex flex-col items-center justify-center gap-6 z-20">
-                    <Loader2 className="w-16 h-16 text-white/10 animate-spin" strokeWidth={1} />
-                    <span className="text-[10px] uppercase tracking-[0.5em] text-white/30 font-black">
-                      Carregando Obra
-                    </span>
-                  </div>
-                )}
-                <Image
+                <ModalImage
                   src={images[selectedIndex as number]}
                   alt="Gallery Selected"
-                  onLoad={() => setIsModalImageLoaded(true)}
-                  className={`max-h-[85vh] w-full object-contain shadow-2xl select-none transition-all duration-1000 ${isModalImageLoaded ? "opacity-100 scale-100" : "opacity-0 scale-110"
-                    }`}
-                  width={1920}
-                  height={1080}
-                  priority
                 />
               </motion.div>
 
