@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
@@ -115,6 +115,46 @@ export default function Home() {
     }
   });
 
+  interface PortfolioConfig {
+    key: string;
+    value: string;
+  }
+
+  interface ConfigGroup {
+    id: string;
+    name: string;
+    configs: PortfolioConfig[];
+  }
+
+  const { data: configGroups = [] } = useQuery<ConfigGroup[]>({
+    queryKey: ["portfolio-configs"],
+    queryFn: async () => {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
+      const { data } = await axios.get(`${apiUrl}/api/configs`);
+      return data;
+    }
+  });
+
+  const portfolioConfigs = useMemo(() => {
+    const group = configGroups.find((g) => g.name === "portfolio");
+    const configs: Record<string, string> = {
+      heroTitle: "Pure Visual Prestige.",
+      heroSubtitle: "Elevando projetos arquitetônicos ao patamar de obra de arte através do hiper-realismo extremo.",
+      manifestoTitle: "Não entregamos imagens. Entregamos o amanhã.",
+      manifestoText: "A Merali Studio nasceu da obsessão pelo detalhe. Atuamos como um laboratório de luz e atmosfera, onde cada pixel é esculpido para criar a ilusão perfeita da realidade.",
+      contactEmail: "contato@merali.com.br",
+      contactWhatsApp: "+55 61 99999-9999"
+    };
+
+    if (group && group.configs) {
+      group.configs.forEach((c) => {
+        configs[c.key] = c.value;
+      });
+    }
+    return configs;
+  }, [configGroups]);
+
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (selectedIndex === null) return;
@@ -130,6 +170,7 @@ export default function Home() {
     e.preventDefault();
     gsap.to(window, { duration: 1.2, scrollTo: href, ease: "power3.inOut" });
   };
+
 
   return (
     <div className="min-h-screen bg-[#050505] text-white selection:bg-white/30 font-sans dark custom-scrollbar">
@@ -188,7 +229,7 @@ export default function Home() {
                   transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
                   className="block overflow-hidden"
                 >
-                  Pure
+                  {portfolioConfigs.heroTitle.split(" ")[0]}
                 </motion.span>
                 <motion.span
                   initial={{ opacity: 0, y: 80 }}
@@ -196,7 +237,7 @@ export default function Home() {
                   transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.35 }}
                   className="block text-transparent bg-clip-text bg-linear-to-b from-white to-white/10"
                 >
-                  Visual
+                  {portfolioConfigs.heroTitle.split(" ")[1]}
                 </motion.span>
                 <motion.span
                   initial={{ opacity: 0, y: 80 }}
@@ -204,7 +245,7 @@ export default function Home() {
                   transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.5 }}
                   className="block italic font-light tracking-[-0.05em] lowercase opacity-50"
                 >
-                  Prestige.
+                  {portfolioConfigs.heroTitle.split(" ").slice(2).join(" ")}
                 </motion.span>
               </h1>
               <div className="flex flex-col md:flex-row md:items-center gap-8 mt-12 w-full">
@@ -214,7 +255,7 @@ export default function Home() {
                   transition={{ duration: 1, delay: 0.9 }}
                   className="max-w-md text-[10px] md:text-sm text-white/40 tracking-[0.2em] uppercase font-bold leading-relaxed pr-6"
                 >
-                  Elevando projetos arquitetônicos ao <br className="hidden md:block" />patamar de obra de arte através do hiper-realismo extremo.
+                  {portfolioConfigs.heroSubtitle}
                 </motion.p>
                 <motion.div
                   initial={{ opacity: 0 }}
@@ -248,15 +289,15 @@ export default function Home() {
             viewport={{ once: true }}
             className="text-4xl md:text-6xl font-black uppercase tracking-tighter leading-[0.95] mb-8"
           >
-            Não entregamos imagens. <br />
-            <span className="text-white/40 italic">Entregamos o amanhã.</span>
+            {portfolioConfigs.manifestoTitle.split(".")[0]}. <br />
+            <span className="text-white/40 italic">{portfolioConfigs.manifestoTitle.split(".")[1]}</span>
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             className="text-md md:text-xl text-white/60 font-light leading-relaxed max-w-2xl"
           >
-            A Merali Studio nasceu da obsessão pelo detalhe. Atuamos como um laboratório de luz e atmosfera, onde cada pixel é esculpido para criar a ilusão perfeita da realidade. Atendemos nomes que moldam o skyline global.
+            {portfolioConfigs.manifestoText}
           </motion.p>
         </div>
       </section>
@@ -314,7 +355,7 @@ export default function Home() {
             Seu próximo <br /> <span className="text-transparent bg-clip-text bg-linear-to-b from-white/80 to-transparent">Marco Começa</span> <br /> Aqui.
           </h2>
           <div className="flex flex-col md:flex-row gap-6 justify-center items-center">
-            <a href="mailto:contato@merali.com.br" className="px-12 py-6 bg-white text-black font-black text-xs uppercase tracking-[0.3em] rounded-full hover:scale-105 transition-transform active:scale-95">
+            <a href={`mailto:${portfolioConfigs.contactEmail}`} className="px-12 py-6 bg-white text-black font-black text-xs uppercase tracking-[0.3em] rounded-full hover:scale-105 transition-transform active:scale-95">
               Enviar Email
             </a>
           </div>
@@ -333,7 +374,7 @@ export default function Home() {
               <br />
               algo juntos?
             </h2>
-            <Link href="https://wa.me/5561999999999" target="_blank" className="cursor-pointer mt-4 px-8 py-6 bg-white text-black hover:bg-white/90 text-xs font-bold tracking-widest uppercase rounded-full transition-all self-start w-max">
+            <Link href={`https://wa.me/${portfolioConfigs.contactWhatsApp.replace(/\D/g, "")}`} target="_blank" className="cursor-pointer mt-4 px-8 py-6 bg-white text-black hover:bg-white/90 text-xs font-bold tracking-widest uppercase rounded-full transition-all self-start w-max">
               Entrar em contato
             </Link>
           </div>
@@ -377,13 +418,13 @@ export default function Home() {
                 Whatsapp
               </span>
               <a
-                href="mailto:contato@merali.com.br"
+                href={`mailto:${portfolioConfigs.contactEmail}`}
                 className="hover:text-white transition-colors normal-case tracking-normal"
               >
-                contato@merali.com.br
+                {portfolioConfigs.contactEmail}
               </a>
               <span className="normal-case tracking-normal">
-                +55 61 99999-9999
+                {portfolioConfigs.contactWhatsApp}
               </span>
               <span className="normal-case tracking-normal">Brasília, DF</span>
             </div>
