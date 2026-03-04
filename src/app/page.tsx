@@ -320,7 +320,7 @@ export default function Home() {
             <div className="flex flex-col items-center justify-center py-60 gap-6 w-full">
               <Loader2 className="w-12 h-12 text-white/20 animate-spin" strokeWidth={1} />
               <span className="text-[10px] md:text-xs font-black tracking-[0.4em] uppercase text-white/30">
-                Sincronizando Galeria
+                Carregando galeria...
               </span>
             </div>
           ) : images.length === 0 ? (
