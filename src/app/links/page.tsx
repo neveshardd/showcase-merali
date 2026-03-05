@@ -69,6 +69,7 @@ export default function LinksBioPage() {
                     fill
                     className="object-cover opacity-10 blur-3xl scale-110"
                     priority
+                    sizes="100vw"
                 />
                 <div className="absolute inset-0 bg-linear-to-b from-[#050505]/50 via-transparent to-[#050505] block" />
             </div>

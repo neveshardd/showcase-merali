@@ -214,6 +214,7 @@ export default function Home() {
             fill
             className="object-cover opacity-50 scale-105"
             priority
+            sizes="100vw"
           />
           <div className="absolute inset-0 bg-linear-to-t from-[#050505] via-transparent to-[#050505]/60 block" />
           <div className="absolute inset-0 bg-linear-to-r from-[#050505] via-transparent to-[#050505]/30 block" />
