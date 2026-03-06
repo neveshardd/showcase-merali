@@ -1,7 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { isOriginAllowed } from "@/lib/cors";
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
     const origin = request.headers.get("origin");
     const isAllowed = isOriginAllowed(origin);
 
