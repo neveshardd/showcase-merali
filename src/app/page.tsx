@@ -10,6 +10,7 @@ import axios from "axios";
 import { z } from "zod";
 import gsap from "gsap";
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
+import WhatsAppButton from "@/components/whatsapp-button";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollToPlugin);
@@ -433,9 +434,9 @@ export default function Home() {
         </div>
 
         <div className="w-full max-w-6xl mx-auto mt-20 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center text-[10px] uppercase font-medium tracking-[0.2em] text-white/30">
-          <p>© 2026 Merali Studio. Todos os direitos reservados.</p>
+          <p>© 2026 Studio Merali. Todos os direitos reservados.</p>
           <div className="flex items-center gap-4 mt-4 md:mt-0">
-            <span>Powered by Merali Studio</span>
+            <span>Powered by Studio Merali</span>
           </div>
         </div>
       </footer>
@@ -552,6 +553,8 @@ export default function Home() {
           </motion.button>
         )}
       </AnimatePresence>
+
+      <WhatsAppButton phoneNumber={portfolioConfigs.contactWhatsApp} />
 
     </div>
 
