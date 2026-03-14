@@ -18,20 +18,16 @@ const WhatsAppButton: React.FC<WhatsAppButtonProps> = ({ phoneNumber }) => {
 
   return (
     <motion.div
-      initial={{ opacity: 0, scale: 0.8, x: 20 }}
-      animate={{ opacity: 1, scale: 1, x: 0 }}
-      transition={{ 
-        duration: 0.8, 
-        delay: 1.5, 
-        ease: [0.16, 1, 0.3, 1] 
-      }}
-      className="fixed bottom-8 right-5 md:right-10 z-60"
+      initial={{ opacity: 0, scale: 0.9 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.3 }}
+      className="fixed bottom-10 right-10 z-60"
     >
       <a
         href={whatsappUrl}
         target="_blank"
         rel="noopener noreferrer"
-        className="group relative flex items-center justify-center w-14 h-14 bg-[#25D366] rounded-full hover:scale-110 transition-all duration-500 shadow-[0_10px_40px_rgba(37,211,102,0.4)]"
+        className="group relative flex items-center justify-center w-14 h-14 bg-[#25D366] rounded-full hover:scale-110 transition-all duration-300 shadow-[0_10px_40px_rgba(37,211,102,0.4)] cursor-pointer"
       >
         {/* Glow effect */}
         <div className="absolute inset-0 rounded-full bg-[#25D366] blur-xl opacity-40 group-hover:opacity-60 transition-opacity duration-700" />
@@ -47,7 +43,7 @@ const WhatsAppButton: React.FC<WhatsAppButtonProps> = ({ phoneNumber }) => {
         </div>
 
         {/* Tooltip hint */}
-        <div className="absolute right-full mr-4 px-3 py-2 bg-white text-black text-[9px] font-black uppercase tracking-widest rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none transform translate-x-2 group-hover:translate-x-0 duration-300 shadow-xl">
+        <div className="absolute right-full top-1/2 -translate-y-1/2 mr-4 px-3 py-2 bg-white text-black text-[9px] font-black uppercase tracking-widest rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-all pointer-events-none transform translate-x-2 group-hover:translate-x-0 duration-300 shadow-xl">
           Conversar no WhatsApp
         </div>
       </a>

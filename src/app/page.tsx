@@ -543,13 +543,19 @@ export default function Home() {
       <AnimatePresence>
         {showBackToTop && (
           <motion.button
-            initial={{ opacity: 0, y: 20, scale: 0.8 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 20, scale: 0.8 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
             onClick={scrollToTop}
-            className="fixed bottom-10 right-10 z-60 p-4 bg-white/10 backdrop-blur-xl border border-white/20 text-white rounded-full shadow-2xl hover:bg-white hover:text-black hover:scale-110 active:scale-95 transition-all group"
+            className="fixed bottom-28 right-10 z-60 p-4 bg-white/10 backdrop-blur-xl border border-white/20 text-white rounded-full shadow-2xl hover:bg-white hover:text-black hover:scale-110 active:scale-95 transition-all group cursor-pointer"
           >
             <ChevronUp className="w-6 h-6 group-hover:-translate-y-1 transition-transform" />
+            
+            {/* Tooltip hint */}
+            <div className="absolute right-full top-1/2 -translate-y-1/2 mr-4 px-3 py-2 bg-white text-black text-[9px] font-black uppercase tracking-widest rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-all pointer-events-none transform translate-x-2 group-hover:translate-x-0 duration-300 shadow-xl">
+              Voltar ao Topo
+            </div>
           </motion.button>
         )}
       </AnimatePresence>
